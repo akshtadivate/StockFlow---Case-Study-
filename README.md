@@ -28,8 +28,6 @@ Optional fields not handled	- Fields like initial quantity may be missing, causi
 
 #### 3) Fixed code:
 
-
-
 ```python
 
 from decimal import Decimal, InvalidOperation
@@ -143,7 +141,8 @@ def create_product():
         db.session.rollback()
         return jsonify({"error": "Unexpected error", "detail": str(e)}), 500
 
-'''
+
+```
 
 ##Part 2: Database Design
 
@@ -240,8 +239,6 @@ Timestamps such as updated_at are stored so that we know when inventory was last
 
 ### 1) Implementation:
 
-````markdown
-
 ```python
 
 from flask import Flask, jsonify
@@ -335,6 +332,9 @@ def get_low_stock_alerts(company_id):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+```
 
 ### 2) Handle Edge Cases:
 
