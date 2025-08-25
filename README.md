@@ -147,6 +147,7 @@ def create_product():
 ## Part 2: Database Design
 
 ### 1) Design Schema:
+```sql
 
 -- Companies
 CREATE TABLE companies (
@@ -210,6 +211,8 @@ CREATE TABLE product_bundles (
     quantity INT NOT NULL,
     PRIMARY KEY (bundle_id, component_id)
 );
+
+```
 
 ### 2) Identify Gaps:
 
