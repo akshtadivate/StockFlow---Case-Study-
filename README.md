@@ -5,25 +5,41 @@
 ### 1) Issues:
 
 No input validation	
+
 SKU uniqueness not enforced
+
 Warehouse ID stored in Product
+
 Price stored as float
+
 Partial commits (two separate commits)
+
 Negative/invalid quantities or prices
+
 No transaction atomicity
+
 Missing error handling
+
 Optional fields not handled
 
 ### 2) Impact:
     
 No input validation	- Missing keys or invalid data can cause runtime errors
+
 SKU uniqueness not enforced -	Duplicate SKUs can break inventory tracking and reporting
+
 Warehouse ID stored in Product -	Products can exist in multiple warehouses, leads to incorrect DB design
+
 Price stored as float -	Can cause rounding errors in financial calculations
+
 Partial commits (two separate commits) - Product may be created but inventory creation may fail, leaving inconsistent data
+
 Negative/invalid quantities or prices -	Leads to incorrect inventory or billing issues
+
 No transaction atomicity -	Multiple database operations not atomic, race conditions possible
+
 Missing error handling -	Always returns 200 even on failure
+
 Optional fields not handled	- Fields like initial quantity may be missing, causing errors
 
 ### 3) Fixed code:
@@ -217,26 +233,43 @@ CREATE TABLE product_bundles (
 ### 2) Identify Gaps:
 
 Do we need one low-stock limit for all products or different for each?
+
 Can a product be in more than one warehouse?
+
 What should happen if stock goes negative?
+
 Do we need to track which user updated the stock?
+
 Should we keep history of old stock changes?
+
 Can one product have more than one supplier?
+
 Do we need to allow transfer of stock between warehouses?
+
 How do we handle returned or damaged items?
+
 Do we need product categories (like electronics, clothes)?
+
 Should we allow deleting products or just disabling them?
 
 
 ### 3) Explain Decisions:
 Every table has a primary key id to make each record unique.
+
 Foreign keys are used to connect related tables, for example a warehouse belongs to a company, and inventory belongs to a product and a warehouse.
+
 Each product has a unique sku so that duplicate products cannot exist.
+
 Inventory is kept in a separate table so that one product can be stored in multiple warehouses.
+
 An inventory history table is added to keep past stock changes for tracking and auditing.
+
 Many-to-many relationship tables are used for mapping products with multiple suppliers and for bundles made of other products.
+
 Indexes are added on sku and on (product_id, warehouse_id) to make searching and lookups faster.
+
 Timestamps such as updated_at are stored so that we know when inventory was last changed.
+
 
 ## Part 3: API Implementation
 
@@ -342,15 +375,23 @@ if __name__ == "__main__":
 ### 2) Handle Edge Cases:
 
 No warehouses: return empty alerts
+
 No supplier: supplier = null
+
 No recent sales: skip product
+
 Threshold missing: use default 10
+
 Negative stock: still count as low stock
 
 ### 3) Explain Approach:
 
 Query products below threshold or default
+
 Check recent sales (last 30 days)
+
 Get supplier info (null if missing)
+
 Estimate days_until_stockout from sales data
+
 Return JSON with alerts and total count.
