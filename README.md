@@ -14,7 +14,7 @@ No transaction atomicity
 Missing error handling
 Optional fields not handled
 
-#### 2) Impact:
+### 2) Impact:
     
 No input validation	- Missing keys or invalid data can cause runtime errors
 SKU uniqueness not enforced -	Duplicate SKUs can break inventory tracking and reporting
@@ -26,7 +26,7 @@ No transaction atomicity -	Multiple database operations not atomic, race conditi
 Missing error handling -	Always returns 200 even on failure
 Optional fields not handled	- Fields like initial quantity may be missing, causing errors
 
-#### 3) Fixed code:
+### 3) Fixed code:
 
 ```python
 
@@ -144,7 +144,7 @@ def create_product():
 
 ```
 
-##Part 2: Database Design
+## Part 2: Database Design
 
 ### 1) Design Schema:
 
@@ -235,7 +235,7 @@ Many-to-many relationship tables are used for mapping products with multiple sup
 Indexes are added on sku and on (product_id, warehouse_id) to make searching and lookups faster.
 Timestamps such as updated_at are stored so that we know when inventory was last changed.
 
-##Part 3: API Implementation
+## Part 3: API Implementation
 
 ### 1) Implementation:
 
