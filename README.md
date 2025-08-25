@@ -28,7 +28,7 @@ Optional fields not handled	- Fields like initial quantity may be missing, causi
 
 #### 3) Fixed code:
 
-````markdown
+
 
 ```python
 
@@ -143,6 +143,7 @@ def create_product():
         db.session.rollback()
         return jsonify({"error": "Unexpected error", "detail": str(e)}), 500
 
+'''
 
 ##Part 2: Database Design
 
